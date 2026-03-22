@@ -1,0 +1,116 @@
+# ==========================================
+# ENVIRONMENT VARIABLES (NEVER COMMIT)
+# ==========================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.example
+server/.env
+server/.env.local
+server/.env.production
+
+# ==========================================
+# DEPENDENCIES
+# ==========================================
+node_modules/
+*/node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ==========================================
+# BUILD & DIST
+# ==========================================
+dist/
+dist-ssr/
+build/
+*.local
+.next/
+out/
+
+# ==========================================
+# LOGS
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+npm-verbose.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================================
+# IDE & EDITOR
+# ==========================================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.idea_modules/
+*.swp
+*.swo
+*.sw?
+*.sublime-*
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+.AppleDouble
+.LSOverride
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.iml
+.vscode-test
+.vscode/settings.json
+
+# ==========================================
+# OS SPECIFIC
+# ==========================================
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# ==========================================
+# TESTING & COVERAGE
+# ==========================================
+coverage/
+.nyc_output/
+.Jest/
+*.lcov
+*.info
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+temp/
+tmp/
+.cache/
+
+# ==========================================
+# STRING SETUP EXECUTABLES
+# ==========================================
+*.exe
+CursorUserSetup-*.exe
+
+# ==========================================
+# DATABASE
+# ==========================================
+*.sqlite
+*.sqlite3
+*.db
+
+# ==========================================
+# MISC
+# ==========================================
+.env.*.local
+dist-ssr
+.turbo/
+turbo.json

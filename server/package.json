@@ -1,0 +1,29 @@
+{
+  "name": "student-mark-analysis-backend",
+  "version": "1.0.0",
+  "description": "Production-grade Engineering College Student Mark Analysis System - Backend API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seed": "node utils/seed.js"
+  },
+  "keywords": ["education", "college", "marks", "management", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.18.2",
+    "dotenv": "16.0.3",
+    "pg": "8.11.0",
+    "jsonwebtoken": "9.0.2",
+    "bcryptjs": "2.4.3",
+    "express-validator": "7.0.0",
+    "helmet": "7.0.0",
+    "express-rate-limit": "7.0.0",
+    "cors": "2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

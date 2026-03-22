@@ -1,0 +1,79 @@
+# ==========================================
+# ENVIRONMENT VARIABLES (NEVER COMMIT)
+# ==========================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.example
+
+# ==========================================
+# DEPENDENCIES
+# ==========================================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ==========================================
+# LOGS
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+npm-verbose.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================================
+# IDE & EDITOR
+# ==========================================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.idea_modules/
+*.swp
+*.swo
+*.sw?
+*.sublime-*
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.iml
+
+# ==========================================
+# OS SPECIFIC
+# ==========================================
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# ==========================================
+# TESTING & COVERAGE
+# ==========================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+temp/
+tmp/
+.cache/
+
+# ==========================================
+# DATABASE
+# ==========================================
+*.sqlite
+*.sqlite3
+*.db
