@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const StudentDashboard = ({ onLogout }) => {
   const [activeSection, setActiveSection] = useState('view-marks');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
@@ -13,89 +14,68 @@ const StudentDashboard = ({ onLogout }) => {
     onLogout();
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   return (
-    <div style={{ display: 'flex', height: '100vh', background: '#f7fafc' }}>
+    <div className="portal-dashboard-container">
+      {/* Sidebar Overlay for Mobile */}
+      <div 
+        className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
+        onClick={closeSidebar}
+      ></div>
+
       {/* Sidebar */}
-      <div style={{
-        width: '250px',
-        background: 'linear-gradient(135deg, #4FACFE 0%, #8E2DE2 100%)',
-        color: 'white',
-        padding: '20px 0',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        overflowY: 'auto'
-      }}>
+      <div className="portal-sidebar">
         {/* Logo/Title */}
-        <div style={{ padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.2)', marginBottom: '20px' }}>
-          <h2 style={{ margin: '0', fontSize: '1.3em' }}>Student Portal</h2>
-          <p style={{ margin: '5px 0 0 0', fontSize: '0.85em', opacity: 0.9 }}>
-            {user?.name || 'Student'}
-          </p>
+        <div className="portal-sidebar-header">
+          <h2>Student Portal</h2>
+          <p>{user?.name || 'Student'}</p>
         </div>
 
+        {/* Hamburger Menu */}
+        <button 
+          className={`hamburger-menu ${sidebarOpen ? 'active' : ''}`}
+          onClick={toggleSidebar}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
         {/* Navigation */}
-        <nav style={{ padding: '0 15px' }}>
+        <nav className={`portal-sidebar-nav ${sidebarOpen ? 'active' : ''}`}>
           <button
-            onClick={() => setActiveSection('view-marks')}
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              marginBottom: '10px',
-              border: 'none',
-              borderRadius: '6px',
-              background: activeSection === 'view-marks' ? 'rgba(255,255,255,0.2)' : 'transparent',
-              color: 'white',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontSize: '1em',
-              fontWeight: activeSection === 'view-marks' ? '600' : '400',
-              transition: 'all 0.3s'
+            onClick={() => {
+              setActiveSection('view-marks');
+              closeSidebar();
             }}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.15)'}
-            onMouseLeave={(e) => e.target.style.background = activeSection === 'view-marks' ? 'rgba(255,255,255,0.2)' : 'transparent'}
+            className={`portal-nav-button ${activeSection === 'view-marks' ? 'active' : ''}`}
           >
             View Marks
           </button>
 
           <button
-            onClick={() => setActiveSection('performance')}
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              marginBottom: '10px',
-              border: 'none',
-              borderRadius: '6px',
-              background: activeSection === 'performance' ? 'rgba(255,255,255,0.2)' : 'transparent',
-              color: 'white',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontSize: '1em',
-              fontWeight: activeSection === 'performance' ? '600' : '400',
-              transition: 'all 0.3s'
+            onClick={() => {
+              setActiveSection('performance');
+              closeSidebar();
             }}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.15)'}
-            onMouseLeave={(e) => e.target.style.background = activeSection === 'performance' ? 'rgba(255,255,255,0.2)' : 'transparent'}
+            className={`portal-nav-button ${activeSection === 'performance' ? 'active' : ''}`}
           >
             Performance Analysis
           </button>
 
-          <hr style={{ borderColor: 'rgba(255,255,255,0.2)', margin: '20px 0' }} />
+          <hr className="portal-nav-divider" />
 
           <button
             onClick={handleLogout}
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              border: 'none',
-              borderRadius: '6px',
-              background: 'rgba(255,255,255,0.1)',
-              color: 'white',
-              cursor: 'pointer',
-              textAlign: 'left',
-              fontSize: '1em',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(229,62,62,0.6)'}
-            onMouseLeave={(e) => e.target.style.background = 'rgba(255,255,255,0.1)'}
+            className="portal-logout-button"
           >
             Sign Out
           </button>
@@ -103,28 +83,20 @@ const StudentDashboard = ({ onLogout }) => {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="portal-main-content">
         {/* Top Bar */}
-        <div style={{
-          background: 'white',
-          padding: '20px 30px',
-          borderBottom: '1px solid #e2e8f0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-        }}>
-          <h1 style={{ margin: '0', color: '#1a202c', fontSize: '1.5em', fontWeight: '600' }}>
+        <div className="portal-topbar">
+          <h1>
             {activeSection === 'view-marks' && 'Marksheet'}
             {activeSection === 'performance' && 'Performance Analysis'}
           </h1>
-          <span style={{ color: '#718096', fontSize: '0.9em' }}>
+          <span className="portal-topbar-date">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
         </div>
 
         {/* Content Area */}
-        <div style={{ padding: '0' }}>
+        <div className="portal-content-area">
           {activeSection === 'view-marks' && <ViewMarks />}
           {activeSection === 'performance' && <PerformanceAnalysis />}
         </div>

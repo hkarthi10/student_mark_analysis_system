@@ -89,18 +89,13 @@ const CommonLogin = ({ role, onBack }) => {
           </button>
           <div>
             <h1>{config.title}</h1>
-            <p style={{ color: '#718096', fontSize: '0.9em', margin: '5px 0 0 0' }}>
+            <p className="login-subtitle">
               {config.subtitle}
             </p>
           </div>
         </div>
 
-        <p style={{ 
-          color: '#718096', 
-          fontSize: '0.95em', 
-          marginBottom: '30px',
-          textAlign: 'center'
-        }}>
+        <p className="login-description">
           {config.description}
         </p>
 
@@ -134,14 +129,7 @@ const CommonLogin = ({ role, onBack }) => {
           </div>
 
           {error && (
-            <div style={{
-              color: '#e53e3e',
-              fontSize: '0.9em',
-              padding: '10px',
-              backgroundColor: 'rgba(229, 62, 62, 0.1)',
-              borderRadius: '6px',
-              borderLeft: '3px solid #e53e3e'
-            }}>
+            <div className="error-message">
               {error}
             </div>
           )}

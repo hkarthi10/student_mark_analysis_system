@@ -240,7 +240,7 @@ const CreateUser = () => {
 
             <div>
               <label style={{ fontWeight: '600', display: 'block', marginBottom: '8px', color: '#1a202c' }}>
-                Password {editingId ? '(leave empty to keep existing)' : '*'}
+                Password(First letter must be Capital,should contains special characters, numbers and above 8 characters){editingId ? '(leave empty to keep existing)' : '*'}
               </label>
               <input
                 type="password"
