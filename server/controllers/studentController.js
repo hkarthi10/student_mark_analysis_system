@@ -54,10 +54,11 @@ export const getMyMarks = async (req, res, next) => {
     // Calculate GPA for current semester
     const marks = marksResult.rows;
     
-    // Ensure marks have grade field (trim trailing spaces from database)
+    // **IMPORTANT**: Always recalculate grade from total_marks to ensure consistency with Anna University system
+    // This fixes any historical data that may have incorrect grades from older versions
     const enrichedMarks = marks.map(m => ({
       ...m,
-      grade: (m.grade || '').trim() || getGradeFromMarks(m.total_marks),
+      grade: getGradeFromMarks(m.total_marks),
     }));
     
     const totalCredits = marks.reduce((sum, m) => sum + m.credits, 0);

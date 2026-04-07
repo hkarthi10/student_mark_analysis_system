@@ -110,11 +110,11 @@ export const getStats = async (req, res, next) => {
       'SELECT DISTINCT department FROM subjects WHERE department IS NOT NULL'
     );
 
-    // Calculate pass percentage
+    // Calculate pass percentage (using total_marks >= 45 as pass criteria for Anna University system)
     const passPercentageResult = await pool.query(
       `SELECT 
         ROUND(
-          100.0 * COUNT(CASE WHEN grade != 'F' THEN 1 END) / NULLIF(COUNT(*), 0),
+          100.0 * COUNT(CASE WHEN total_marks >= 45 THEN 1 END) / NULLIF(COUNT(*), 0),
           2
         ) as pass_percentage
        FROM marks`
@@ -138,6 +138,7 @@ export const getStats = async (req, res, next) => {
 /**
  * GET /api/admin/report
  * Get performance report (ready for PDF generation)
+ * Recalculates grades to ensure consistency with Anna University grading system
  */
 export const getReport = async (req, res, next) => {
   try {
@@ -158,12 +159,19 @@ export const getReport = async (req, res, next) => {
        ORDER BY u.name, su.subject_code`
     );
 
+    // **IMPORTANT**: Always recalculate grades from total_marks to ensure consistency
+    // This fixes any historical data that may have incorrect grades from older versions
+    const enrichedRecords = report.rows.map(record => ({
+      ...record,
+      grade: getGradeFromMarks(record.total_marks),
+    }));
+
     res.status(200).json({
       success: true,
       data: {
         timestamp: new Date().toISOString(),
-        total_records: report.rows.length,
-        records: report.rows,
+        total_records: enrichedRecords.length,
+        records: enrichedRecords,
       },
     });
   } catch (err) {

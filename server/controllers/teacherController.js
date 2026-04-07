@@ -142,9 +142,9 @@ export const getSubjectAnalysis = async (req, res, next) => {
         ROUND(AVG(m.total_marks), 2) as class_average,
         MAX(m.total_marks) as highest_marks,
         MIN(m.total_marks) as lowest_marks,
-        COUNT(CASE WHEN m.grade != 'F' THEN 1 END) as pass_count,
-        COUNT(CASE WHEN m.grade = 'F' THEN 1 END) as fail_count,
-        ROUND(100.0 * COUNT(CASE WHEN m.grade != 'F' THEN 1 END) / NULLIF(COUNT(*), 0), 2) as pass_percentage
+        COUNT(CASE WHEN m.total_marks >= 45 THEN 1 END) as pass_count,
+        COUNT(CASE WHEN m.total_marks < 45 THEN 1 END) as fail_count,
+        ROUND(100.0 * COUNT(CASE WHEN m.total_marks >= 45 THEN 1 END) / NULLIF(COUNT(*), 0), 2) as pass_percentage
        FROM marks m
        WHERE m.subject_id = $1`,
       [subjectId]
@@ -166,7 +166,7 @@ export const getSubjectAnalysis = async (req, res, next) => {
       [subjectId]
     );
 
-    // Get arrear list (grade = 'F')
+    // Get arrear list (failed students: total_marks < 45, grade = 'U')
     const arrearResult = await pool.query(
       `SELECT 
         u.name,
@@ -176,7 +176,7 @@ export const getSubjectAnalysis = async (req, res, next) => {
        FROM marks m
        JOIN students st ON m.student_id = st.id
        JOIN users u ON st.user_id = u.id
-       WHERE m.subject_id = $1 AND m.grade = 'F'
+       WHERE m.subject_id = $1 AND m.total_marks < 45
        ORDER BY u.name`,
       [subjectId]
     );
@@ -260,12 +260,21 @@ export const getMySubjects = async (req, res, next) => {
 
 /**
  * Helper function to calculate grade
+ * Uses Anna University grading system
+ * 90-100 → O (10)
+ * 80-89 → A+ (9)
+ * 70-79 → A (8)
+ * 60-69 → B+ (7)
+ * 50-59 → B (6)
+ * 45-49 → C (5)
+ * Below 45 → U (0, fail)
  */
 function calculateGrade(total) {
-  if (total >= 90) return 'A+';
-  if (total >= 80) return 'A';
-  if (total >= 70) return 'B';
-  if (total >= 60) return 'C';
-  if (total >= 50) return 'D';
-  return 'F';
+  if (total >= 90) return 'O';
+  if (total >= 80) return 'A+';
+  if (total >= 70) return 'A';
+  if (total >= 60) return 'B+';
+  if (total >= 50) return 'B';
+  if (total >= 45) return 'C';
+  return 'U';
 }
